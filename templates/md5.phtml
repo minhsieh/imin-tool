@@ -1,0 +1,66 @@
+<?php include('layout/header.phtml')?>
+<div class="container">
+	<div class="row">
+		<div class="col s12 m8 push-m2">
+			<h4>MD5 雜湊加密</h4>
+			<div class="card">
+				<div class="card-content">
+					請輸入要MD5雜湊的字串：<br>
+					可以換行來產生多筆加密結果。
+					<div class="row">
+						<div class="input-field col s9">
+							<i class="material-icons prefix">account_circle</i>
+							<textarea id="md5_string"  class="materialize-textarea"></textarea>
+							<label for="icon_prefix">加密文字、字串</label>
+						</div>
+						<div class="input-field col s3">
+							<a id="btn_md5" class="waves-effect waves-light btn">加密</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col s12 m8 push-m2">
+			<div class="card">
+				<div class="card-content">
+					產生字串：
+					<div class="row">
+						<div class="input-field col s12">
+							<blockquote id="md5_display">
+								
+							</blockquote>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<script>
+	$(document).on('click','#btn_md5',function(){
+		$.ajax({
+			type: "POST",
+			url: "md5",
+			dataType: "json",
+			data : {
+				string: $('#md5_string').val()
+			},
+			success: function(json){
+				var html = "";
+				$.each(json.md5 , function(key,value){
+					html += value+"<br>";
+				});
+				$('#md5_display').html(html);
+			},
+			error: function(json){
+				Materialize.toast('看來這個工具掛了，你可能要找別的使用啦XD', 4000)
+			}
+		});
+	});
+	
+</script>
+<?php include('layout/footer.phtml')?>
